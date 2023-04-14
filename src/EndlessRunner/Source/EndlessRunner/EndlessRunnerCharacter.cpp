@@ -16,6 +16,9 @@
 
 AEndlessRunnerCharacter::AEndlessRunnerCharacter()
 {
+
+	PrimaryActorTick.bCanEverTick = true;
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 		
@@ -125,5 +128,13 @@ void AEndlessRunnerCharacter::Look(const FInputActionValue& Value)
 }
 
 
+// Called every frame
+void AEndlessRunnerCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	AddMovementInput(FVector3d::ForwardVector );
+
+}
 
 
