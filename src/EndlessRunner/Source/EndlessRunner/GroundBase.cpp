@@ -3,6 +3,7 @@
 
 #include "GroundBase.h"
 #include "ObstacleBase.h"
+#include "Characters/RunnerCharacter.h"
 
 #include "Components/BoxComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -19,6 +20,10 @@ AGroundBase::AGroundBase()
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Ground Mesh"));
 	BaseMesh->SetupAttachment(BoxComponent);
 
+	DespawnCollider =CreateDefaultSubobject<UBoxComponent>(TEXT("Despawn Component"));
+	DespawnCollider->SetupAttachment(RootComponent);
+
+
 
 
 }
@@ -30,21 +35,23 @@ void AGroundBase::BeginPlay()
 
 	if (ObstacleClass && BoxComponent)
 	{
-	FVector SpawnLocation = UKismetMathLibrary::RandomPointInBoundingBox(BoxComponent->Bounds.Origin, BoxComponent->Bounds.BoxExtent);
-	UE_LOG(LogTemp, Warning, TEXT("Random spawn loc %s"), *SpawnLocation.ToString());
+		FVector SpawnLocation = UKismetMathLibrary::RandomPointInBoundingBox(BoxComponent->Bounds.Origin, BoxComponent->Bounds.BoxExtent);
+		UE_LOG(LogTemp, Warning, TEXT("Random spawn loc %s"), *SpawnLocation.ToString());
 
-	AObstacleBase* Obstacle = GetWorld()->SpawnActor<AObstacleBase>(ObstacleClass, SpawnLocation, FRotator::ZeroRotator);
-	Obstacle->SetOwner(this);
-	FVector ObstacleOrigin;
-	FVector ObstacleExtent;
-
-
-	Obstacle->GetActorBounds(false, ObstacleOrigin, ObstacleExtent);
-	UE_LOG(LogTemp, Warning, TEXT("ObstacleOrigin  %s"), *ObstacleOrigin.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("ObstacleExtent  %s"), *ObstacleExtent.ToString());
-	Obstacle->SetActorLocation(FVector(SpawnLocation.X, SpawnLocation.Y, ObstacleExtent.Z));
+		AObstacleBase* Obstacle = GetWorld()->SpawnActor<AObstacleBase>(ObstacleClass, SpawnLocation, FRotator::ZeroRotator);
+		Obstacle->SetOwner(this);
+		Obstacle->AttachToActor(this,FAttachmentTransformRules::KeepRelativeTransform);
+		
+		FVector ObstacleOrigin;
+		FVector ObstacleExtent;
+		Obstacle->GetActorBounds(false, ObstacleOrigin, ObstacleExtent);
+		UE_LOG(LogTemp, Warning, TEXT("ObstacleOrigin  %s"), *ObstacleOrigin.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("ObstacleExtent  %s"), *ObstacleExtent.ToString());
+		Obstacle->SetActorLocation(FVector(SpawnLocation.X, SpawnLocation.Y, ObstacleExtent.Z));
 
 	}
+
+	DespawnCollider->OnComponentBeginOverlap.AddDynamic(this, &AGroundBase::OnBoxBeginOverlap);
 
 }
 
@@ -53,5 +60,17 @@ void AGroundBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FVector MoveLocation = GetActorLocation();
+	MoveLocation.X -= (MoveSpeed * DeltaTime * 100.f);
+	SetActorLocation(MoveLocation);
+
 }
 
+void AGroundBase::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	ARunnerCharacter* Character = Cast<ARunnerCharacter>(OtherActor);
+	if (Character)
+	{
+	UE_LOG(LogTemp, Warning, TEXT("PLAYER HIT"));
+	}
+}

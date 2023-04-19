@@ -37,4 +37,15 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Obstacles")
 		TSubclassOf<AObstacleBase> ObstacleClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	float MoveSpeed = 10.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+		UBoxComponent* DespawnCollider;
+
+	UFUNCTION()
+		void OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
+			AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
+			bool bFromSweep, const FHitResult& SweepResult);
+
 };
