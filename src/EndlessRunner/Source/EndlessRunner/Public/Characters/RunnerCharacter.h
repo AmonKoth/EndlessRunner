@@ -29,6 +29,7 @@ protected:
 
 	void MoveForward(float Value);
 
+
 private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Camera Components")
@@ -36,5 +37,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Camera Components")
 	UCameraComponent* CameraComponent;
+
+
 
 };

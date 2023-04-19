@@ -65,12 +65,22 @@ void AGroundBase::Tick(float DeltaTime)
 	SetActorLocation(MoveLocation);
 
 }
+void AGroundBase::Destroyed()
+{
+	TArray<AActor*> AttachedActors;
+	GetAttachedActors(AttachedActors);
+
+	for (AActor* AttachedActor : AttachedActors)
+	{
+		AttachedActor->Destroy();
+	}
+}
 
 void AGroundBase::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	ARunnerCharacter* Character = Cast<ARunnerCharacter>(OtherActor);
 	if (Character)
 	{
-	UE_LOG(LogTemp, Warning, TEXT("PLAYER HIT"));
+		Destroy();
 	}
 }

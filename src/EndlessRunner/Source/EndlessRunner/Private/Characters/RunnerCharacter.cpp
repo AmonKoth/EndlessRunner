@@ -33,7 +33,6 @@ void ARunnerCharacter::Tick(float DeltaTime)
 
 }
 
-
 void ARunnerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
