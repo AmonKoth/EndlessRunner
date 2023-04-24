@@ -18,6 +18,11 @@ public:
 	// Sets default values for this actor's properties
 	AGroundBase();
 
+	UFUNCTION()
+	void SetMoveSpeed(float Value) { MoveSpeed = Value; }
+
+	float GetSizeOfTheFloor() { return SizeOfTheFloor; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -40,8 +45,7 @@ private:
 		TSubclassOf<AObstacleBase> ObstacleClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-	float MoveSpeed = 10.f;
-
+		float StartMoveSpeed = 10.0f;
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 		UBoxComponent* DespawnCollider;
 
@@ -49,5 +53,13 @@ private:
 		void OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 			AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
 			bool bFromSweep, const FHitResult& SweepResult);
+
+
+
+	float MoveSpeed = 10.f;
+	float SizeOfTheFloor = 0.0f;
+
+
+
 
 };

@@ -24,8 +24,6 @@ AGroundBase::AGroundBase()
 	DespawnCollider->SetupAttachment(RootComponent);
 
 
-
-
 }
 
 // Called when the game starts or when spawned
@@ -33,10 +31,12 @@ void AGroundBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	MoveSpeed = StartMoveSpeed;
+	SizeOfTheFloor =  BoxComponent->Bounds.BoxExtent.X;
+
 	if (ObstacleClass && BoxComponent)
 	{
 		FVector SpawnLocation = UKismetMathLibrary::RandomPointInBoundingBox(BoxComponent->Bounds.Origin, BoxComponent->Bounds.BoxExtent);
-		UE_LOG(LogTemp, Warning, TEXT("Random spawn loc %s"), *SpawnLocation.ToString());
 
 		AObstacleBase* Obstacle = GetWorld()->SpawnActor<AObstacleBase>(ObstacleClass, SpawnLocation, FRotator::ZeroRotator);
 		Obstacle->SetOwner(this);
@@ -45,8 +45,6 @@ void AGroundBase::BeginPlay()
 		FVector ObstacleOrigin;
 		FVector ObstacleExtent;
 		Obstacle->GetActorBounds(false, ObstacleOrigin, ObstacleExtent);
-		UE_LOG(LogTemp, Warning, TEXT("ObstacleOrigin  %s"), *ObstacleOrigin.ToString());
-		UE_LOG(LogTemp, Warning, TEXT("ObstacleExtent  %s"), *ObstacleExtent.ToString());
 		Obstacle->SetActorLocation(FVector(SpawnLocation.X, SpawnLocation.Y, ObstacleExtent.Z));
 
 	}
@@ -65,6 +63,8 @@ void AGroundBase::Tick(float DeltaTime)
 	SetActorLocation(MoveLocation);
 
 }
+
+//Handles the deconstruction of the child obstacles 
 void AGroundBase::Destroyed()
 {
 	TArray<AActor*> AttachedActors;
@@ -76,6 +76,7 @@ void AGroundBase::Destroyed()
 	}
 }
 
+//To Destroy the floor when player passes through
 void AGroundBase::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	ARunnerCharacter* Character = Cast<ARunnerCharacter>(OtherActor);

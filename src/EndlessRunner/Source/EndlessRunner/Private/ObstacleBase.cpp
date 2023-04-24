@@ -3,6 +3,9 @@
 
 #include "ObstacleBase.h"
 #include "Components/BoxComponent.h"
+#include "Characters/RunnerCharacter.h"
+
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AObstacleBase::AObstacleBase()
@@ -23,6 +26,7 @@ AObstacleBase::AObstacleBase()
 void AObstacleBase::BeginPlay()
 {
 	Super::BeginPlay();
+	BaseMesh->OnComponentHit.AddDynamic(this, &AObstacleBase::OnHit);
 	
 }
 
@@ -31,5 +35,24 @@ void AObstacleBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AObstacleBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
+	FVector NormalImpluse, const FHitResult& Hit)
+{
+	AActor* MyOwner = GetOwner();
+	if (MyOwner == nullptr)
+	{	return;	}
+
+	AController* MyOwnerInstigator = MyOwner->GetInstigatorController();
+	UClass* DamageTypeClass = UDamageType::StaticClass();
+
+	ARunnerCharacter* HitCharacter = Cast<ARunnerCharacter>(OtherActor);
+	if (HitCharacter)
+	{
+		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwnerInstigator, this, DamageTypeClass);
+	}
+
+	
 }
 

@@ -32,4 +32,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly,Category = "Components")
 	UBoxComponent* BoxComponent;
+
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	float Damage = 1.0f;
+
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
+			FVector NormalImpluse, const FHitResult& Hit);
 };
