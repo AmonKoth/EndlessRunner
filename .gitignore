@@ -72,3 +72,11 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+bin/Windows/Manifest_UFSFiles_Win64.txt
+bin/Windows/Manifest_NonUFSFiles_Win64.txt
+bin/Windows/EndlessRunner/Content/Paks/global.utoc
+bin/Windows/EndlessRunner/Content/Paks/global.ucas
+bin/Windows/EndlessRunner/Content/Paks/EndlessRunner-Windows.utoc
+bin/Windows/EndlessRunner/Content/Paks/EndlessRunner-Windows.ucas
+bin/Windows/EndlessRunner/Content/Paks/EndlessRunner-Windows.pak
+bin/Windows/EndlessRunner/Binaries/Win64/tbb.pdb
