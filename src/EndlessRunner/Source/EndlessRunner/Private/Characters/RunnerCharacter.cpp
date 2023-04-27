@@ -2,8 +2,7 @@
 
 
 #include "Characters/RunnerCharacter.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
+
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -11,19 +10,14 @@ ARunnerCharacter::ARunnerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Arm"));
-	SpringArmComponent->SetupAttachment(RootComponent);
-
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	CameraComponent->SetupAttachment(SpringArmComponent);
-
 }
 
 // Called when the game starts or when spawned
 void ARunnerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UE_LOG(LogTemp,Warning,TEXT(""))
 	
 }
 
@@ -38,7 +32,6 @@ void ARunnerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis(FName("LeftRight"), this, &ARunnerCharacter::MoveForward);
 
 }
 

@@ -7,8 +7,7 @@
 #include "RunnerCharacter.generated.h"
 
 
-class USpringArmComponent;
-class UCameraComponent;
+
 
 UCLASS()
 class ENDLESSRUNNER_API ARunnerCharacter : public ACharacter
@@ -30,16 +29,8 @@ protected:
 	virtual void BeginPlay() override;
 
 
-
-
 private:
 
-	UPROPERTY(VisibleAnywhere, Category = "Camera Components")
-	USpringArmComponent* SpringArmComponent;
-
-	UPROPERTY(VisibleAnywhere, Category = "Camera Components")
-	UCameraComponent* CameraComponent;
-	
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MoveSpeed = 600.0f;
 
