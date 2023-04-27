@@ -2,10 +2,12 @@
 
 
 #include "Characters/MainCharacter.h"
+#include "Characters/RunnerCharacter.h"
+#include "EndlessRunnerGameModeBase.h"
+
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Characters/RunnerCharacter.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -30,6 +32,8 @@ void AMainCharacter::BeginPlay()
 	UGameplayStatics::GetAllActorsOfClass(this, ARunnerCharacter::StaticClass(), Players);
 	FirstPlayer = Cast<ARunnerCharacter>(Players[0]);
 	SecondPlayer = Cast<ARunnerCharacter>(Players[1]);
+
+	GameMode = Cast<AEndlessRunnerGameModeBase>(UGameplayStatics::GetGameMode(this));
 	
 	
 }
@@ -38,6 +42,10 @@ void AMainCharacter::BeginPlay()
 void AMainCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	Score += (DeltaTime*5);
+
+	GameMode->UpdateScore(Score);
 
 }
 

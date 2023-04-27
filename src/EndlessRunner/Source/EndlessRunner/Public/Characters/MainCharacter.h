@@ -9,6 +9,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class ARunnerCharacter;
+class AEndlessRunnerGameModeBase;
 
 UCLASS()
 class ENDLESSRUNNER_API AMainCharacter : public ACharacter
@@ -38,7 +39,11 @@ private:
 	ARunnerCharacter* FirstPlayer;
 	ARunnerCharacter* SecondPlayer;
 
+	AEndlessRunnerGameModeBase* GameMode;
+
 	void FirstPlayerMove(float Value);
 	void SecondPlayerMove(float Value);
+
+	float Score;
 
 };

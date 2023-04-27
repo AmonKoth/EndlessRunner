@@ -14,11 +14,14 @@ void AEndlessRunnerGameModeBase::BeginPlay()
 
 }
 
-
+void AEndlessRunnerGameModeBase::UpdateScore(float Value)
+{
+	Score = Value;
+}
 
 void AEndlessRunnerGameModeBase::ActorDied(AActor* DeadActor)
 {
-	if (DeadActor == Player)
+	if (DeadActor)
 	{
 		GameOver();
 		GetWorldTimerManager().SetTimer(RestartTimerHandle, this, &AEndlessRunnerGameModeBase::RestartLevel, 1.5f, true);

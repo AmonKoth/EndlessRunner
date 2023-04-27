@@ -16,12 +16,16 @@ class ENDLESSRUNNER_API AEndlessRunnerGameModeBase : public AGameModeBase
 public:
 	
 	void ActorDied(AActor* DeadActor);
-
+	
+	void UpdateScore(float Value);
 protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void GameOver();
+
+	UFUNCTION(BlueprintCallable)
+		float GetScore() { return Score; }
 
 private:
 	
@@ -33,6 +37,9 @@ private:
 	void RestartLevel();
 
 	FTimerHandle RestartTimerHandle;
+
+
+	float Score = 0.0f;
 
 
 };
