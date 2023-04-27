@@ -29,6 +29,9 @@ private:
 
 	AGroundBase* LastSpawn;
 
+	UPROPERTY(EditAnywhere, Category ="Difficulty")
+	float PlatformSpeed = 10.f;
+
 	void SpawnNewFloor();
 
 	float LastSpawnDistance = 0.0f;

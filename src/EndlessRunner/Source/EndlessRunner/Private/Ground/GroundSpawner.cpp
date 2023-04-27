@@ -47,6 +47,8 @@ void AGroundSpawner::SpawnNewFloor()
 	{
 		AGroundBase* SpawnedGround = GetWorld()->SpawnActor<AGroundBase>(SpawnedGroundClass, GetActorLocation(), FRotator::ZeroRotator);
 		SpawnedGround->SetOwner(this);
+		SpawnedGround->SetMoveSpeed(PlatformSpeed);
+		PlatformSpeed += 0.5f;
 		LastSpawn = SpawnedGround;
 	}
 

@@ -80,3 +80,4 @@ bin/Windows/EndlessRunner/Content/Paks/EndlessRunner-Windows.utoc
 bin/Windows/EndlessRunner/Content/Paks/EndlessRunner-Windows.ucas
 bin/Windows/EndlessRunner/Content/Paks/EndlessRunner-Windows.pak
 bin/Windows/EndlessRunner/Binaries/Win64/tbb.pdb
+bin/Windows.zip

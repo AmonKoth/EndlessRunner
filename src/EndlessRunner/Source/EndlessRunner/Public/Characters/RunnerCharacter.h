@@ -23,11 +23,13 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void MoveForward(float Value);
+
 protected:
 
 	virtual void BeginPlay() override;
 
-	void MoveForward(float Value);
+
 
 
 private:
@@ -37,6 +39,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Camera Components")
 	UCameraComponent* CameraComponent;
+	
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float MoveSpeed = 600.0f;
 
 
 

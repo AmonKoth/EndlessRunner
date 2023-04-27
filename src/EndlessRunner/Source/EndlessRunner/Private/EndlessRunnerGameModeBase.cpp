@@ -11,6 +11,8 @@ void AEndlessRunnerGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 	HandleGameStart();
+
+	UGameplayStatics::CreatePlayer(this,0);
 }
 
 

@@ -4,6 +4,7 @@
 #include "Characters/RunnerCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ARunnerCharacter::ARunnerCharacter()
@@ -46,19 +47,8 @@ void ARunnerCharacter::MoveForward(float Value)
 	if (Controller && (Value != 0.0f))
 	{
 		FVector Right = GetActorRightVector();
-		AddMovementInput(Right, Value);
-		if ((-900 >= GetActorLocation().Y))
-		{
-			FVector CorrectLocation = GetActorLocation();
-			CorrectLocation.Y = -895;
-			SetActorLocation(CorrectLocation);
-		}
-		if ((900 <= GetActorLocation().Y))
-		{
-			FVector CorrectLocation = GetActorLocation();
-			CorrectLocation.Y = 895;
-			SetActorLocation(CorrectLocation);
-		}
+		float Speed = Value * MoveSpeed * UGameplayStatics::GetWorldDeltaSeconds(this);
+		AddMovementInput(Right, Speed);
 
 	}
 
