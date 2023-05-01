@@ -8,6 +8,7 @@
 
 class UBoxComponent;
 class AObstacleBase;
+class AObstacleManager;
 
 UCLASS()
 class ENDLESSRUNNER_API AGroundBase : public AActor
@@ -59,7 +60,7 @@ private:
 	float MoveSpeed = 10.f;
 	float SizeOfTheFloor = 0.0f;
 
-
+	AObstacleManager* Manager;
 
 
 };

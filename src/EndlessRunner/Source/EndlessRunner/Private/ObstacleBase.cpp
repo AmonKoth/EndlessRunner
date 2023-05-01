@@ -4,6 +4,7 @@
 #include "ObstacleBase.h"
 #include "Components/BoxComponent.h"
 #include "Characters/RunnerCharacter.h"
+#include "Obstacle/ObstacleManager.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -27,6 +28,14 @@ void AObstacleBase::BeginPlay()
 {
 	Super::BeginPlay();
 	BaseMesh->OnComponentHit.AddDynamic(this, &AObstacleBase::OnHit);
+	if (!Manager)
+	{
+		Manager = Cast<AObstacleManager>(UGameplayStatics::GetActorOfClass(this, AObstacleManager::StaticClass()));
+	}
+	if (Manager)
+	{
+		Manager->AddToList(this);
+	}
 	
 }
 
@@ -36,6 +45,7 @@ void AObstacleBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+
 
 void AObstacleBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
 	FVector NormalImpluse, const FHitResult& Hit)
@@ -50,9 +60,25 @@ void AObstacleBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	ARunnerCharacter* HitCharacter = Cast<ARunnerCharacter>(OtherActor);
 	if (HitCharacter)
 	{
+		bPassSuccess = false;
 		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwnerInstigator, this, DamageTypeClass);
 	}
-
-	
 }
+
+void AObstacleBase::DestroyedByManager()
+{
+	bPassSuccess = false;
+	Destroy();
+}
+void AObstacleBase::Destroyed()
+{
+	Super::Destroyed();
+
+	if (Manager && bPassSuccess)
+	{
+		Manager->PassSuccesfull();
+	}
+}
+
+
 

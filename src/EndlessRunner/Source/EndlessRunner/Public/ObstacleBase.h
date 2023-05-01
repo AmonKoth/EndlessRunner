@@ -7,6 +7,7 @@
 #include "ObstacleBase.generated.h"
 
 class UBoxComponent;
+class AObstacleManager;
 
 UCLASS()
 class ENDLESSRUNNER_API AObstacleBase : public AActor
@@ -14,16 +15,16 @@ class ENDLESSRUNNER_API AObstacleBase : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
-	AObstacleBase();
+
+	AObstacleBase();	
+	virtual void Tick(float DeltaTime) override;
+	void AssignManager(AObstacleManager* ToAssign) { Manager = ToAssign; }
+	void DestroyedByManager();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void Destroyed() override;
 
 private:
 
@@ -40,4 +41,8 @@ private:
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
 			FVector NormalImpluse, const FHitResult& Hit);
+
+	bool bPassSuccess = true;
+
+	AObstacleManager* Manager;
 };

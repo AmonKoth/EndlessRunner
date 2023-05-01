@@ -4,9 +4,11 @@
 #include "GroundBase.h"
 #include "ObstacleBase.h"
 #include "Characters/RunnerCharacter.h"
+#include "Obstacle/ObstacleManager.h"
 
 #include "Components/BoxComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AGroundBase::AGroundBase()
@@ -34,11 +36,17 @@ void AGroundBase::BeginPlay()
 	MoveSpeed = StartMoveSpeed;
 	SizeOfTheFloor =  BoxComponent->Bounds.BoxExtent.X;
 
-	if (ObstacleClass && BoxComponent)
+	if (!Manager)
+	{
+		Manager = Cast<AObstacleManager>(UGameplayStatics::GetActorOfClass(this, AObstacleManager::StaticClass()));
+	}
+
+	if (ObstacleClass && BoxComponent&& Manager)
 	{
 		FVector SpawnLocation = UKismetMathLibrary::RandomPointInBoundingBox(BoxComponent->Bounds.Origin, BoxComponent->Bounds.BoxExtent);
 
 		AObstacleBase* Obstacle = GetWorld()->SpawnActor<AObstacleBase>(ObstacleClass, SpawnLocation, FRotator::ZeroRotator);
+		Obstacle->AssignManager(Manager);
 		Obstacle->SetOwner(this);
 		Obstacle->AttachToActor(this,FAttachmentTransformRules::KeepRelativeTransform);
 		
@@ -46,8 +54,8 @@ void AGroundBase::BeginPlay()
 		FVector ObstacleExtent;
 		Obstacle->GetActorBounds(false, ObstacleOrigin, ObstacleExtent);
 		Obstacle->SetActorLocation(FVector(SpawnLocation.X, SpawnLocation.Y, ObstacleExtent.Z));
-
 	}
+
 
 	DespawnCollider->OnComponentBeginOverlap.AddDynamic(this, &AGroundBase::OnBoxBeginOverlap);
 

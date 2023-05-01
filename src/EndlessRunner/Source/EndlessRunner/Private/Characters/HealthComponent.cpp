@@ -54,7 +54,7 @@ void UHealthComponent::DamageTaken(AActor* DamagedActor, float Damage, const UDa
 
 	CurrentHealth -= Damage;
 		CurrentGraceTime = GracePeriod;
-	if (CurrentHealth <= 0.0f)
+	if (CurrentHealth <= 0.0f && GameMode)
 	{
 		GameMode->ActorDied(DamagedActor);
 	}

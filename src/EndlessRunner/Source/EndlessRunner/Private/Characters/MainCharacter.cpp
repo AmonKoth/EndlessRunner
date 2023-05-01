@@ -43,7 +43,7 @@ void AMainCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	Score += (DeltaTime*5);
+	Score += (DeltaTime);
 
 	GameMode->UpdateScore(Score);
 
