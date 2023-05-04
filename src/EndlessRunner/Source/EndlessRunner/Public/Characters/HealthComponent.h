@@ -19,7 +19,8 @@ public:
 	UHealthComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-
+	UFUNCTION(BlueprintCallable)
+	float GetHealthPercentage() { return CurrentHealth / StartHealth; }
 
 protected:
 	// Called when the game starts

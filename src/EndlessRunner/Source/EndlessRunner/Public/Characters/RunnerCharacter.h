@@ -24,6 +24,8 @@ public:
 
 	void MoveForward(float Value);
 
+	
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -33,6 +35,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MoveSpeed = 600.0f;
+
 
 
 

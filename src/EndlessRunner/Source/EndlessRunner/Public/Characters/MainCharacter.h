@@ -23,6 +23,11 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	UFUNCTION(BlueprintCallable)
+	ARunnerCharacter* GetFirstPlayer() { return FirstPlayer; }
+	UFUNCTION(BlueprintCallable)
+	ARunnerCharacter* GetSecondPlayer() { return SecondPlayer; }
 
 protected:
 	// Called when the game starts or when spawned
