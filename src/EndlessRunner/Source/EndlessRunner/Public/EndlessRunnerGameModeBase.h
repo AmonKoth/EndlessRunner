@@ -7,6 +7,7 @@
 #include "EndlessRunnerGameModeBase.generated.h"
 
 class ARunnerCharacter;
+class UHighScoreBase;
 
 UCLASS()
 class ENDLESSRUNNER_API AEndlessRunnerGameModeBase : public AGameModeBase
@@ -18,6 +19,7 @@ public:
 	void ActorDied(AActor* DeadActor);
 	
 	void UpdateScore(float Value);
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -25,21 +27,28 @@ protected:
 	void GameOver();
 
 	UFUNCTION(BlueprintCallable)
-		float GetScore() { return Score; }
+		float GetScore() { return CurrentScore; }
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetHighestScore() { return HighestScore; }
+
+	//UFUNCTION(BlueprintCallable)
+	//	void SetPlayerName(FString Name) { PlayerName = Name; return; }
 
 private:
 	
+	void HandleGameStart();
+	void RestartLevel();
+	void SaveScore(const FString& GameName, const float& Score);
+	void LoadSavedScores(const FString& GameName);
+
 
 	ARunnerCharacter* Player;
-
-	void HandleGameStart();
-
-	void RestartLevel();
-
 	FTimerHandle RestartTimerHandle;
+	TArray<UHighScoreBase*> HighScores;
 
-
-	float Score = 0.0f;
+	int32 HighestScore;
+	float CurrentScore = 0.0f;
 
 
 };

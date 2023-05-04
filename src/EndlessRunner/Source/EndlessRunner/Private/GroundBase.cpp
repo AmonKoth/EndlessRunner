@@ -78,9 +78,12 @@ void AGroundBase::Destroyed()
 	TArray<AActor*> AttachedActors;
 	GetAttachedActors(AttachedActors);
 
-	for (AActor* AttachedActor : AttachedActors)
+	if (AttachedActors.Num() > 0)
 	{
-		AttachedActor->Destroy();
+		for (AActor* AttachedActor : AttachedActors)
+		{
+			AttachedActor->Destroy();
+		}
 	}
 }
 
